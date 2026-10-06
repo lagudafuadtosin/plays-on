@@ -2,27 +2,37 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "default_locale": "en",
-  "version": "1.8.1",
-
+  "version": "1.0.0",
   "description": "__MSG_extensionDescription__",
+  "author": "Fuad Laguda",
+  "homepage_url": "https://github.com/lagudafuadtosin/plays-on",
   "icons": {
     "48": "icon.svg",
     "96": "icon.svg"
   },
-
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
-      "id": "video-bg-play@timdream.org",
-      "strict_min_version": "58.0"
+      "id": "plays-on@lagudafuadtosin",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
     }
   },
-
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*",
-                  "*://*.youtube-nocookie.com/*",
-                  "*://*.vimeo.com/*"],
-      "js": ["video-bg-play-content.js"],
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.youtube-nocookie.com/*"
+      ],
+      "js": [
+        "video-bg-play-content.js"
+      ],
       "all_frames": true
     }
   ]

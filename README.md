@@ -1,35 +1,39 @@
-# Video Background Play Fix  ![logo](/icon.svg)
+# Plays On ![logo](icon.svg)
 
-Firefox for Android can continue playing video even if you switch to another tab or app.
-However, sites can detect these user actions with the [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) and the [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
-This add-on is designed to block events and properties exposed by the APIs.
+Keeps videos and music playing in Firefox for Android when you switch to another app, and keeps YouTube and YouTube Music playlists going to the next video in the background.
 
-## License
+Plays On is built on [Video Background Play Fix](https://github.com/mozilla/video-bg-play) by Timothy Guan-tin Chien and Jan Henning, under the MIT licence. It is a separate add-on and is not made or endorsed by them or by Mozilla.
 
-Add-on code: MIT.
+## What it does
 
-"[Glasses](https://thenounproject.com/term/glasses/1473422)" icon used in the logo by rahmatmasiv from [the Noun Project](https://thenounproject.com/)  under the [CC BY 3.0 US](https://creativecommons.org/licenses/by/3.0/us/).
+- **Keeps playing when you leave the page.** Sites can tell when you switch tabs or apps and pause the video. Plays On hides that from them, so YouTube keeps playing.
+- **Keeps YouTube playlists going.** With Firefox in the background, YouTube moves to the next video in a playlist or Mix but never starts it. Plays On notices the player is stuck and starts it. Tested on a Samsung Galaxy A14 with Firefox 157 for Android: 6 of 6 song changes, across playlists and Mixes, including ones with an ad first.
+- **Keeps long videos going.** Some sites stop when they see no activity for a while. Plays On keeps the activity time fresh, the same as the original.
 
-## Technical detail
+## Known limit
 
-The add-on injects a content script to replace the properties exposed, and stops events from propagating when applicable.
+On phones that are low on memory, Android can close parts of Firefox when it goes to the background, and the video stops with "An error occurred". No add-on can prevent that. Closing other apps first helps.
 
-### Page Visibility API
+## Privacy
 
-The add-on blocks `visibilitychange` event, and set `document.hidden` to be always `false` and `document.visibilityState` to be forever `visible`.
+Plays On makes no network requests, collects nothing and stores nothing. It only runs on youtube.com and youtube-nocookie.com.
 
-### Fullscreen API
+## How it works
 
-The add-on doesn't generally override the Fullscreen API because at the moment this is not required and the original implementation caused some broken UI after existing fullscreen.
-As a site-specific workaround, we do however block `fullscreenchange` events on Vimeo to prevent playback from stopping when exiting fullscreen.
+The add-on injects a content script on the sites above.
 
-### User activity tracking
+- **Page Visibility API:** it blocks the `visibilitychange` event and makes `document.hidden` always `false` and `document.visibilityState` always `visible`.
+- **User activity:** on YouTube, it sends a harmless key event about once a minute.
+- **Playlists:** on m.youtube.com on Android, while Firefox is really in the background, if a video has ended and the next has not started after 2 seconds, and the player is not playing or buffering, it calls the player's own `playVideo()`, at most three times per video.
 
-Some pages stop playback if they don't detect any user activity for a certain amount of time. To avoid this, the add-on ensures that the time of the last user activity is regularly updated.
+## Credit
 
-## Sites
+Video Background Play Fix was created by Timothy Guan-tin Chien (timdream) and maintained by Jan Henning, with translations and fixes from its contributors. Plays On keeps their code and its history.
 
-As a demonstration, the content script currently injects itself to the following sites:
+## Licence
 
-* youtube.com and youtube-nocookie.com
-* vimeo.com
+MIT, the same as the original. See [LICENSE](LICENSE). The icon is new and is part of this project.
+
+## Problems and ideas
+
+[Open an issue](https://github.com/lagudafuadtosin/plays-on/issues).

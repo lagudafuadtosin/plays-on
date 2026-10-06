@@ -1,9 +1,8 @@
 {
   "extensionName": {
-    "message": "Oprava přehrávání videa na pozadí",
+    "message": "Plays On",
     "description": "Název rozšíření."
   },
-
   "extensionDescription": {
     "message": "Přehrávejte videa na pozadí, i když vám to stránka nedovoluje.",
     "description": "Popis rozšíření."

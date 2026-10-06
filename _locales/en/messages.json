@@ -1,11 +1,10 @@
 {
   "extensionName": {
-    "message": "Video Background Play Fix",
+    "message": "Plays On",
     "description": "Name of the extension."
   },
-
   "extensionDescription": {
-    "message": "Play back videos in background even if a page doesn't want you to.",
+    "message": "Keeps videos and music playing when you switch to another app, and keeps YouTube and YouTube Music playlists going in the background.",
     "description": "Description of the extension."
   }
 }
