@@ -62,6 +62,7 @@ function getRandomInt(aMin, aMax) {
 function watchPlaylist() {
   const PLAYING = 1;
   const BUFFERING = 3;
+  const ENDED = 0;
   const WAIT_MS = 2000;
   const MAX_NUDGES = 3;
 
@@ -94,6 +95,16 @@ function watchPlaylist() {
     if (!api || typeof api.getPlayerState !== 'function' || typeof api.playVideo !== 'function') return;
     const state = api.getPlayerState();
     if (state === PLAYING || state === BUFFERING) return;
+
+    // The player can still hold the old video after the URL moves on, and playing it loops the same song
+    const urlId = new URLSearchParams(location.search).get('v');
+    const loadedId = typeof api.getVideoData === 'function' && api.getVideoData().video_id;
+    if (urlId && loadedId && loadedId !== urlId && typeof api.loadVideoById === 'function') {
+      nudges++;
+      api.loadVideoById(urlId);
+      return;
+    }
+    if (state === ENDED) return;
 
     nudges++;
     api.playVideo();
